@@ -4,6 +4,8 @@ git:
 python:
   # - 3.5
   - 3.8.5
+node_js:
+  - 12.18.4
 branches:
   only:
   - master
