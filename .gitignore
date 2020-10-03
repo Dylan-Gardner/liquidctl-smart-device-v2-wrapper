@@ -3,10 +3,11 @@
 .mypy_cache\
 .env
 
-/dist
+/dist*
 .coverage
 .pytest_cache/
 htmlcov/
+build/
 
 .DS_Store
 node_modules/

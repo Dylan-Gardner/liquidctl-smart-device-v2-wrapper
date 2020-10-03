@@ -3,36 +3,34 @@ REST API Resource Routing
 http://flask-restplus.readthedocs.io
 """
 
-from datetime import datetime
 from flask import request
 from flask_restx import Resource
 
-from .security import require_auth
 from . import api_rest
 
-
-class SecureResource(Resource):
-    """ Calls require_auth decorator on all requests """
-    method_decorators = [require_auth]
+from liquidctl.driver import find_liquidctl_devices
+from liquidctl.driver.smart_device import SmartDeviceV2Driver
+from liquidctl import util
 
 
 @api_rest.route('/resource/<string:resource_id>')
-class ResourceOne(Resource):
+class Status(Resource):
     """ Unsecure Resource Class: Inherit from Resource """
 
     def get(self, resource_id):
-        timestamp = datetime.utcnow().isoformat()
-        return {'timestamp': timestamp}
+        status = self._get_status()
+        return {'status': status}
 
     def post(self, resource_id):
         json_payload = request.json
         return {'timestamp': json_payload}, 201
 
+    def _get_smart_driver(self):
+        return next((dev for dev in find_liquidctl_devices() if isinstance(dev, SmartDeviceV2Driver)), None)
 
-@api_rest.route('/secure-resource/<string:resource_id>')
-class SecureResourceOne(SecureResource):
-    """ Unsecure Resource Class: Inherit from Resource """
 
-    def get(self, resource_id):
-        timestamp = datetime.utcnow().isoformat()
-        return {'timestamp': timestamp}
+    def _get_status(self):
+        driver = self._get_smart_driver()
+        driver.connect()
+        return driver.get_status()
+
