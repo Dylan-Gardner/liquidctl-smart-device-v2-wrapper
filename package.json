@@ -39,10 +39,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "build": {
-    "appId": "liquidctl.wrapper",
-    "linux": {
-      "category": "Utility"
-    }
+    "appId": "liquidctl.wrapper"
   },
   "babel": {
     "presets": [
