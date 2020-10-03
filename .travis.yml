@@ -2,8 +2,6 @@ matrix:
   include:
     - language: python
       python: 3.8.5
-      before_script:
-        - cd backend/tests
       install: 
         - "pip install --upgrade pip"
         - "pip install pipenv"
